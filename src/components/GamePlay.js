@@ -6,7 +6,8 @@ import '../styles/Main.scss';
 
 import shipImage from '../assets/images/RMS90.png';
 import blastImage from '../assets/images/blast.gif';
-import enemyImage from '../assets/images/enemy.png';
+import enemyImage1 from '../assets/images/IL2.png'
+import enemyImage2 from '../assets/images/IL2-1.png'
 import bulletImage from '../assets/images/DILDO2.png';
 
 const bulletThrowInterval = 100;
@@ -16,6 +17,10 @@ const enemiesThrowInterval = 500;
 const enemiesSpeedInterval = 100;
 const enemiesSpeedSize = 10;
 const numberOfBlasters = 3;
+
+const enemyArr = [
+    enemyImage1, enemyImage2
+];
 
 export default class Main extends Component {
     constructor(props) {
@@ -75,10 +80,6 @@ export default class Main extends Component {
     }
 
     fire() {
-        // setInterval(() => {
-        //     if (!this.state.pause)
-        //         this.generateBullet();
-        // }, bulletThrowInterval);
 
         setInterval(() => {
             if (!this.state.pause)
@@ -100,7 +101,7 @@ export default class Main extends Component {
         x = x === -1 ? this.state.playerStyle.left : x;
         let { bulletX, bulletY } = this.state;
         let { bottom } = this.getBoundaries();
-        bulletX.push(x + 10);
+        bulletX.push(x + 30);
         bulletY.push(bottom - 120);
         this.setState({ bulletX, bulletY });
     }
@@ -211,7 +212,7 @@ export default class Main extends Component {
                 if (aliveEnemies[index] === 1) {
                     return (
                         <div key={`enemy_${index}`} style={{ position: 'absolute', left: left, top: top, alignContent: 'center' }}>
-                            <img src={enemyImage} width="50px" alt='e' />
+                            <img src={index%2 > 0 ? enemyArr[0] : enemyArr[1]} width="50px" alt='e' />
                         </div>
                     )
                 }
@@ -307,7 +308,7 @@ export default class Main extends Component {
             if (event.which === 32) {
                 this.generateBullet();
             }
-            if (event.which === 98) {
+            if (event.which === 98 || event.which === 1080) {
                 // "B" key was pressed to release Blaster
                 this.releaseBlaster();
             }
