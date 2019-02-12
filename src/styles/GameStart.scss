@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'UF_Odyssey';
+    src: url('../assets/font/UF_Odyssey-Bold.ttf');
+}
+
 .main{
     display: flex;
     display: -webkit-flex;
@@ -6,14 +11,41 @@
     height: 100vh;
 }
 
+.start-screen {
+    background: url("../assets/images/BG1.png") 100% no-repeat;
+
+    .content {
+        background: none;
+    }
+}
+
+
 .content{
     display: flex;
     display: -webkit-flex;
     flex-direction: column;
-    background-image:url("../assets/images/background.png");
     width: 100vw;
     height: 92%;
     align-items: center;
     justify-content: center;
     margin: auto;
+
+    .img-game {
+
+    }
+
+    .Ivan-face {
+
+    }
+
+    .btn-start {
+        font: 28px "UF_Odyssey";
+        padding: 0;
+        background: #e91448;
+        border: solid 5px black;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        cursor: default;
+    }
 }
+

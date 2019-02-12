@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import localforage from 'localforage';
-// import SignUpForm from './SignUpForm';
+import gameImg from '../assets/images/GAME.png';
+import byeImg from '../assets/images/BYE.png';
 import '../styles/GameStart.scss';
 
 export default class GameStart extends Component {
@@ -15,28 +15,21 @@ export default class GameStart extends Component {
 
     handleChange = (e) => {
         e.preventDefault()
-        if (this.state.name !== null && this.state.name !== "") {
-            localforage.setItem('playerName', this.state.name).then((value) => {
-                console.log("Value set in localforage: ", value);
-                this.props.history.push('/gameplay')
-            }).catch((err) => {
-                console.log("Error while storing name");
-                this.setState({ errorText: err });
-            })
-
-        }
+        this.props.history.push('/gameplay')
     }
+
     render() {
         return (
-            <div className="main">
+            <div className="main start-screen">
                 <div className="content">
-                    <form onSubmit={this.handleChange}>
-                        <input
-                            onChange={(event) => { this.setState({ name: event.target.value.trim() }) }}
-                        />
-                        <br />
-                        <button type="submit" label="Enter">123</button>
-                    </form>
+                    <img height={120} src={gameImg} className="img-game" alt=""/>
+                    <img height={240} src={byeImg} className="Ivan-face" alt=""/>
+                    <div
+                      onClick={this.handleChange}
+                      className="btn-start"
+                    >
+                        START
+                    </div>
                 </div>
             </div>
         )
