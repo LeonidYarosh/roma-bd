@@ -6,7 +6,8 @@ import '../styles/Main.scss';
 
 import shipImage from '../assets/images/RMS90.png';
 import blastImage from '../assets/images/blast.gif';
-import enemyImage from '../assets/images/enemy.png';
+import enemyImage1 from '../assets/images/IL2.png'
+import enemyImage2 from '../assets/images/IL2-1.png'
 import bulletImage from '../assets/images/DILDO2.png';
 
 const bulletThrowInterval = 100;
@@ -16,6 +17,10 @@ const enemiesThrowInterval = 500;
 const enemiesSpeedInterval = 100;
 const enemiesSpeedSize = 10;
 const numberOfBlasters = 3;
+
+const enemyArr = [
+    enemyImage1, enemyImage2
+];
 
 export default class Main extends Component {
     constructor(props) {
@@ -75,10 +80,6 @@ export default class Main extends Component {
     }
 
     fire() {
-        // setInterval(() => {
-        //     if (!this.state.pause)
-        //         this.generateBullet();
-        // }, bulletThrowInterval);
 
         setInterval(() => {
             if (!this.state.pause)
@@ -100,7 +101,7 @@ export default class Main extends Component {
         x = x === -1 ? this.state.playerStyle.left : x;
         let { bulletX, bulletY } = this.state;
         let { bottom } = this.getBoundaries();
-        bulletX.push(x + 10);
+        bulletX.push(x + 30);
         bulletY.push(bottom - 120);
         this.setState({ bulletX, bulletY });
     }
@@ -116,7 +117,7 @@ export default class Main extends Component {
         this.setState({ enemiesX, enemiesY, enemyCount });
     }
 
-    mouseMove(event) {
+    mouseMove = (event) => {
         if (!this.state.pause) {
             let { left, width } = this.getBoundaries();
             width = width - 30;
@@ -141,10 +142,12 @@ export default class Main extends Component {
                     let ey = enemiesY[j];
 
                     if (aliveEnemies[j] === 1 && (bx >= ex) && (bx - ex) <= 50 && Math.abs(by - ey) <= 10) {
+                        // debugger
                         bulletY[i] = -bulletSpeedSize;
-                        enemiesY[j] = this.state.bottom + enemiesSpeedSize;
+                        // enemiesY[j] = this.state.bottom + enemiesSpeedSize;
                         aliveEnemies[j] = 0;
                         enemyCount--;
+                        console.log(enemyCount)
                         score++;
                     }
                 }
@@ -201,6 +204,17 @@ export default class Main extends Component {
         }, this);
     }
 
+    clearEnemyImage = (index) => () => {
+        const copyAliveItems = [...this.state.aliveEnemies];
+        const copyEnemyY = [...this.state.enemiesY];
+        copyEnemyY[index] = this.state.bottom + 1000;
+        copyAliveItems[index] = null;
+        this.setState({
+            aliveEnemies : [...copyAliveItems],
+            enemiesY: [...copyEnemyY]
+        });
+    }
+
     renderEnemies() {
         let { bottom, aliveEnemies } = this.state;
         return this.state.enemiesX.map((value, index, array) => {
@@ -211,7 +225,14 @@ export default class Main extends Component {
                 if (aliveEnemies[index] === 1) {
                     return (
                         <div key={`enemy_${index}`} style={{ position: 'absolute', left: left, top: top, alignContent: 'center' }}>
-                            <img src={enemyImage} width="50px" alt='e' />
+                            <img src={index%2 > 0 ? enemyArr[0] : enemyArr[1]} width="50px" alt='e' tag={index}/>
+                        </div>
+                    )
+                } else if (aliveEnemies[index] === 0) {
+                    setTimeout(this.clearEnemyImage(index), 150);
+                    return (
+                        <div key={`enemy_${index}`} style={{ position: 'absolute', left: left, top: top, alignContent: 'center' }}>
+                            <img src={blastImage} width="50px" alt='e' tag={index}/>
                         </div>
                     )
                 }
@@ -289,18 +310,14 @@ export default class Main extends Component {
         }
     }
 
-    keyPress(event) {
-        console.log(event.which)
+    keyPress = (event) => {
         this.setState({ snackBarOpen: false });
         if (event.which === 13) {
             // SpaceBar was pressed
             this.gamePause();
         }
         else if (!this.state.pause) {
-            if (event.which === 32) {
-                this.generateBullet();
-            }
-            if (event.which === 98) {
+            if (event.which === 98 || event.which === 1080) {
                 // "B" key was pressed to release Blaster
                 this.releaseBlaster();
             }
@@ -318,11 +335,18 @@ export default class Main extends Component {
         }
     }
 
+    keyUp = (event) => {
+        if (event.which === 32) {
+            this.generateBullet();
+        }
+    }
+
     render() {
         return (
-            <div className="mainContainer" ref="mainContainer" tabIndex="0" onKeyPress={this.keyPress.bind(this)}>
+            <div className="mainContainer" ref="mainContainer" tabIndex="0" onKeyPress={this.keyPress}
+                 onKeyUp={this.keyUp}>
                 <div className="main">
-                    <div className="gameRegion" ref="gameRegion" onMouseMove={this.mouseMove.bind(this)}>
+                    <div className="gameRegion" ref="gameRegion" onMouseMove={this.mouseMove}>
                         <div key="gameRegionDiv" style={{ position: "relative" }}>
                             <Info key="infoComponent" score={this.state.score} lives={this.state.lives} pause={this.state.pause} blasters={this.state.numberOfBlasters} />
 
@@ -336,7 +360,7 @@ export default class Main extends Component {
                         </div>
                         <Snackbar
                             open={this.state.snackBarOpen}
-                            message="Spaceship Blast"
+                            message="OH SORRY"
                             autoHideDuration={10000}
                             onRequestClose={
                                 () => {
