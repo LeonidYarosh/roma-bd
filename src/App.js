@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import GameStart from './components/GameStart';
 import GamePlay from './components/GamePlay';
+import { GameOver } from './components/GameOver';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import './App.scss';
@@ -22,9 +23,14 @@ class App extends Component {
                     )}
                 />
                 <Route
-                    path={`${process.env.PUBLIC_URL}/gameplay`}
+                    path={`${process.env.PUBLIC_URL}/gamePlay`}
                     exact
                     component = {GamePlay}
+                />
+                <Route
+                    path={`${process.env.PUBLIC_URL}/gameOver`}
+                    exact
+                    component = {GameOver}
                 />
             </div>
         </BrowserRouter>

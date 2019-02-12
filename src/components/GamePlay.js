@@ -231,14 +231,7 @@ export default class Main extends Component {
             gameOver: true,
         })
         this.gamePause();
-        if (window.confirm("Press OK to Restart or Cancel to Close")) {
-            console.log("Wants to restart....");
-            this.props.history.push('/')
-        } else {
-            console.log("Close the window");
-            window.close();
-            this.props.history.push('/')
-        };
+        this.props.history.push('/gameOver')
     }
 
 

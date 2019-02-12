@@ -9,13 +9,9 @@ export default class GameStart extends Component {
         errorText: ""
     }
 
-    componentDidMount() {
-        console.log('user?', this.props.user)
-    }
-
     handleChange = (e) => {
         e.preventDefault()
-        this.props.history.push('/gameplay')
+        this.props.history.push('/gamePlay')
     }
 
     render() {

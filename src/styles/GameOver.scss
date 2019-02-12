@@ -1,0 +1,12 @@
+.game-over {
+  background: url("../assets/images/BG1.png") 100% no-repeat;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding-top: 10vh;
+}
