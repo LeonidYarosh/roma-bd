@@ -1,0 +1,58 @@
+@font-face {
+    font-family: 'UF_Odyssey';
+    src: url('../assets/font/UF_Odyssey-Bold.ttf');
+}
+.info-wrapper {
+  font-family: UF_Odyssey;
+  padding: 20px;
+  position: absolute;
+  z-index: 1;
+  .info {
+    position: absolute;
+    font-size: 1.2rem;
+    z-index: 12220;
+    color: whitesmoke;
+    background-color: #604860;
+  }
+
+  .playerLives {
+    height: 30px;
+    margin-right: 5px;
+  }
+
+  .infoLives {
+    display: flex;
+    display: -webkit-flex;
+  }
+
+  .score-wrapper {
+    width: fit-content;
+    height: max-content;
+    padding: 10px;
+    background: #e91448;
+    border: solid 5px black;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    &__label {
+      display: flex;
+      div {
+        line-height: 25px;
+      }
+      span {
+        line-height: 25px;
+        font-size: 20px;
+        font-weight: bold;
+        margin-left: 5px;
+      }
+    }
+    //background: transparent;
+    //border-color: #cbcbcb #4e474e #4e474e #cbcbcb;
+    //border-style: solid;
+    //border-width: 5px;
+  }
+
+  .showInfo {
+    margin-left: 0.3rem;
+    margin-top: 0.2rem;
+  }
+}
