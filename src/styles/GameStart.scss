@@ -49,3 +49,22 @@
     }
 }
 
+.girl {
+    position: absolute;
+    top: calc(50% - 150px);
+    height: 300px;
+}
+.girl.girl-left{
+    transform: scale(-1, 1);
+    left: 5rem;
+}
+
+.girl.girl-right{
+    right: 5rem;
+}
+
+@media screen and (max-width: 1200px) {
+    .girl{
+        display: none;
+    }
+}
