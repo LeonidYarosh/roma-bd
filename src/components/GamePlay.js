@@ -13,6 +13,8 @@ import enemyImage1 from '../assets/images/IL2.png'
 import enemyImage2 from '../assets/images/IL2-1.png'
 import bulletImage from '../assets/images/DILDO2.png';
 
+import girl from '../assets/images/telka.gif';
+
 import gachi1 from '../assets/media/fuck you....mp3'
 import gachi2 from '../assets/media/Fucking slaves get your ass back here.mp3'
 import gachi3 from '../assets/media/Iam cumming.mp3'
@@ -407,6 +409,7 @@ export default class Main extends Component {
         return (
             <div className="mainContainer" ref="mainContainer" tabIndex="0" onKeyPress={this.keyPress}
                  onKeyUp={this.keyUp}>
+                <img src={girl} className="girl girl-left" alt="G"/>
                 <div className="main">
                     <div className="gameRegion" ref="gameRegion" onMouseMove={this.mouseMove}>
                         <div key="gameRegionDiv" style={{ position: "relative" }} className="generate-bullets">
@@ -448,6 +451,8 @@ export default class Main extends Component {
                         />
                     </div>
                 </div>
+
+                <img src={girl} className="girl girl-right" alt="G"/>
             </div>
         )
     }
