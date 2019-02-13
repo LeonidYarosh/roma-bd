@@ -8,11 +8,22 @@ import '../styles/Main.scss';
 
 import shipImage from '../assets/images/RMS90.png';
 import blastImage from '../assets/images/blast.gif';
+import explodeImage from '../assets/images/EXPLODE-A.gif';
 import enemyImage1 from '../assets/images/IL2.png'
 import enemyImage2 from '../assets/images/IL2-1.png'
 import bulletImage from '../assets/images/DILDO2.png';
 
-import laughter from '../assets/media/dikiy-mujskoy-smeh.mp3'
+import gachi1 from '../assets/media/fuck you....mp3'
+import gachi2 from '../assets/media/Fucking slaves get your ass back here.mp3'
+import gachi3 from '../assets/media/Iam cumming.mp3'
+import gachi4 from '../assets/media/Orgasm 1.mp3'
+import gachi5 from '../assets/media/Orgasm 2.mp3'
+import gachi6 from '../assets/media/Thats amazing.mp3'
+
+import gachi7 from '../assets/media/obosralsya.mp3'
+import gachi8 from '../assets/media/Take it boy.mp3'
+
+let gachiArr = [gachi1,gachi2,gachi3,gachi4,gachi5,gachi6]
 
 const bulletThrowInterval = 100;
 const bulletSpeedInterval = 50;
@@ -49,6 +60,9 @@ export default class Main extends Component {
             blast: false,
             shipImage: 'spaceship.png',
             playingLaughter: false,
+            isGameOverAudio: false,
+            isPlayMinusLiveAudio: false,
+            numberOfTrack: 0,
         }
     }
 
@@ -159,7 +173,6 @@ export default class Main extends Component {
                         // enemiesY[j] = this.state.bottom + enemiesSpeedSize;
                         aliveEnemies[j] = 0;
                         enemyCount--;
-                        console.log(enemyCount)
                         score++;
                         playingLaughter = true;
                     }
@@ -189,6 +202,8 @@ export default class Main extends Component {
                     });
                     if (lives <= 0) {
                         this.gameOver();
+                    } else {
+                        this.playMinusLiveAudio()
                     }
                 }
             }
@@ -245,7 +260,7 @@ export default class Main extends Component {
                     setTimeout(this.clearEnemyImage(index), 150);
                     return (
                         <div key={`enemy_${index}`} style={{ position: 'absolute', left: left, top: top, alignContent: 'center' }}>
-                            <img src={blastImage} width="50px" alt='e'/>
+                            <img src={explodeImage} width="50px" alt='e'/>
                         </div>
                     )
                 }
@@ -259,13 +274,31 @@ export default class Main extends Component {
         }, this);
     }
 
-    gameOver() {
+    onEndenGameOverAudio = () => {
         console.log("Game over");
         this.setState({
             gameOver: true,
         })
         this.gamePause();
         this.props.history.push('/gameOver')
+    }
+
+    gameOver() {
+        this.setState({
+            isGameOverAudio:true
+        })
+    }
+
+    playMinusLiveAudio = () => {
+        this.setState({
+            isPlayMinusLiveAudio:true
+        })
+    }
+
+    stopPlayMinusLiveAudio = () => {
+        this.setState({
+            isPlayMinusLiveAudio:false
+        })
     }
 
 
@@ -355,14 +388,20 @@ export default class Main extends Component {
     }
 
     onEnded = () => {
+        let randomNumber = Math.floor(Math.random()*gachiArr.length);
         this.setState({
             playingLaughter: false,
+            numberOfTrack: randomNumber,
         })
     }
 
     render() {
+
         const {
             playingLaughter,
+            numberOfTrack,
+            isGameOverAudio,
+            isPlayMinusLiveAudio,
         } = this.state
 
         return (
@@ -382,9 +421,19 @@ export default class Main extends Component {
                             </div>
                         </div>
                         <ReactPlayer
-                          url={laughter}
+                          url={gachiArr[numberOfTrack]}
                           playing={playingLaughter}
                           onEnded={this.onEnded}
+                        />
+                        <ReactPlayer
+                          url={gachi7}
+                          playing={isGameOverAudio}
+                          onEnded={this.onEndenGameOverAudio}
+                        />
+                        <ReactPlayer
+                          url={gachi8}
+                          playing={isPlayMinusLiveAudio}
+                          onEnded={this.stopPlayMinusLiveAudio}
                         />
                         <Snackbar
                             open={this.state.snackBarOpen}
