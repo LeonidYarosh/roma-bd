@@ -370,7 +370,7 @@ export default class Main extends Component {
                  onKeyUp={this.keyUp}>
                 <div className="main">
                     <div className="gameRegion" ref="gameRegion" onMouseMove={this.mouseMove}>
-                        <div key="gameRegionDiv" style={{ position: "relative" }}>
+                        <div key="gameRegionDiv" style={{ position: "relative" }} className="generate-bullets">
                             <Info key="infoComponent" score={this.state.score} lives={this.state.lives} pause={this.state.pause} blasters={this.state.numberOfBlasters} />
 
                             {this.renderEnemies()}
