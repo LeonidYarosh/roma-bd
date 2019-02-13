@@ -4,6 +4,7 @@ import ReactPlayer from 'react-player';
 import Snackbar from 'material-ui/Snackbar';
 import localforage from 'localforage';
 import Info from './Info';
+import { IvanHey } from './IvanHey';
 import '../styles/Main.scss';
 
 import shipImage from '../assets/images/RMS90.png';
@@ -125,6 +126,7 @@ export default class Main extends Component {
             let { left, width } = this.getBoundaries();
             width = width - 30;
             let x = event.clientX - left;
+            console.log('move', event.clientX, x, left, width)
             if (x < width) {
                 this.setState({
                     playerStyle: { left: x }
@@ -159,7 +161,6 @@ export default class Main extends Component {
                         // enemiesY[j] = this.state.bottom + enemiesSpeedSize;
                         aliveEnemies[j] = 0;
                         enemyCount--;
-                        console.log(enemyCount)
                         score++;
                         playingLaughter = true;
                     }
@@ -360,12 +361,20 @@ export default class Main extends Component {
         })
     }
 
+    addScore = () => {
+        this.setState({
+            score: this.state.score + 10
+        })
+    }
+
     render() {
         const {
             playingLaughter,
+            pause,
         } = this.state
 
         return (
+          <React.Fragment>
             <div className="mainContainer" ref="mainContainer" tabIndex="0" onKeyPress={this.keyPress}
                  onKeyUp={this.keyUp}>
                 <div className="main">
@@ -399,7 +408,9 @@ export default class Main extends Component {
                         />
                     </div>
                 </div>
+                <IvanHey addScore={this.addScore} />
             </div>
+          </React.Fragment>
         )
     }
 }

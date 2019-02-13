@@ -1,0 +1,52 @@
+.ivan-hey {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+
+  &--img {
+    width: 280px;
+    height: 180px;
+    transform: translateY(100%);
+    transition: transform .3s ease-in-out;
+    background: url('../assets/images/IVAN_PUNCH.png') 0 0/100% auto no-repeat;
+  }
+  &--img.show {
+    transform: none;
+  }
+
+  &--punch {
+    background-position-y: bottom;
+  }
+
+  .pos1 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .pos2 {
+    position: absolute;
+    transform: rotate(90deg);
+    left: -50px;
+    top: 0;
+  }
+
+  .pos3 {
+    transform: rotate(-180deg);
+    right: 0;
+    top: 0;
+    margin-left: auto;
+    margin-right: -50px;
+  }
+
+  .pos4 {
+    transform: rotate(-90deg);
+    right: 0;
+    top: 30%;
+    margin-left: auto;
+    margin-right: -50px;
+  }
+}
