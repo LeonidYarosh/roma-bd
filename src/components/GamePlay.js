@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import ReactPlayer from 'react-player';
+
 import Snackbar from 'material-ui/Snackbar';
 import localforage from 'localforage';
 import Info from './Info';
@@ -9,6 +11,8 @@ import blastImage from '../assets/images/blast.gif';
 import enemyImage1 from '../assets/images/IL2.png'
 import enemyImage2 from '../assets/images/IL2-1.png'
 import bulletImage from '../assets/images/DILDO2.png';
+
+import laughter from '../assets/media/dikiy-mujskoy-smeh.mp3'
 
 const bulletThrowInterval = 100;
 const bulletSpeedInterval = 50;
@@ -44,12 +48,11 @@ export default class Main extends Component {
             playerName: null,
             blast: false,
             shipImage: 'spaceship.png',
+            playingLaughter: false,
         }
-
     }
 
     checkPlayerName() {
-        // console.log("In CheckPlayerName");
         localforage.getItem('playerName')
             .then((playerName) => {
                 if (!playerName || playerName === null || playerName === "") {
@@ -131,7 +134,16 @@ export default class Main extends Component {
     }
 
     updatebulletY() {
-        let { bulletY, bulletX, enemiesX, enemiesY, enemyCount, aliveEnemies, score } = this.state;
+        let {
+            bulletY,
+            bulletX,
+            enemiesX,
+            enemiesY,
+            enemyCount,
+            aliveEnemies,
+            score,
+            playingLaughter
+        } = this.state;
         for (let i = 0; i < bulletY.length; i++) {
             if (bulletY[i] > -bulletSpeedSize) {
                 bulletY[i] = bulletY[i] - bulletSpeedSize;
@@ -142,18 +154,19 @@ export default class Main extends Component {
                     let ey = enemiesY[j];
 
                     if (aliveEnemies[j] === 1 && (bx >= ex) && (bx - ex) <= 50 && Math.abs(by - ey) <= 10) {
-                        // debugger
+                        // Попадание
                         bulletY[i] = -bulletSpeedSize;
                         // enemiesY[j] = this.state.bottom + enemiesSpeedSize;
                         aliveEnemies[j] = 0;
                         enemyCount--;
                         console.log(enemyCount)
                         score++;
+                        playingLaughter = true;
                     }
                 }
             }
         }
-        this.setState({ bulletY, enemiesY, enemyCount, score, aliveEnemies });
+        this.setState({ bulletY, enemiesY, enemyCount, score, aliveEnemies, playingLaughter });
     }
 
     updateEnemiesY() {
@@ -203,7 +216,7 @@ export default class Main extends Component {
             }
         }, this);
     }
-
+    // Исчезновение взрыва на месте Илюхи
     clearEnemyImage = (index) => () => {
         const copyAliveItems = [...this.state.aliveEnemies];
         const copyEnemyY = [...this.state.enemiesY];
@@ -211,7 +224,7 @@ export default class Main extends Component {
         copyAliveItems[index] = null;
         this.setState({
             aliveEnemies : [...copyAliveItems],
-            enemiesY: [...copyEnemyY]
+            enemiesY: [...copyEnemyY],
         });
     }
 
@@ -225,14 +238,14 @@ export default class Main extends Component {
                 if (aliveEnemies[index] === 1) {
                     return (
                         <div key={`enemy_${index}`} style={{ position: 'absolute', left: left, top: top, alignContent: 'center' }}>
-                            <img src={index%2 > 0 ? enemyArr[0] : enemyArr[1]} width="50px" alt='e' tag={index}/>
+                            <img src={index%2 > 0 ? enemyArr[0] : enemyArr[1]} width="50px" alt='e'/>
                         </div>
                     )
                 } else if (aliveEnemies[index] === 0) {
                     setTimeout(this.clearEnemyImage(index), 150);
                     return (
                         <div key={`enemy_${index}`} style={{ position: 'absolute', left: left, top: top, alignContent: 'center' }}>
-                            <img src={blastImage} width="50px" alt='e' tag={index}/>
+                            <img src={blastImage} width="50px" alt='e'/>
                         </div>
                     )
                 }
@@ -341,7 +354,17 @@ export default class Main extends Component {
         }
     }
 
+    onEnded = () => {
+        this.setState({
+            playingLaughter: false,
+        })
+    }
+
     render() {
+        const {
+            playingLaughter,
+        } = this.state
+
         return (
             <div className="mainContainer" ref="mainContainer" tabIndex="0" onKeyPress={this.keyPress}
                  onKeyUp={this.keyUp}>
@@ -358,6 +381,11 @@ export default class Main extends Component {
                                 <img src={this.state.blast ? blastImage : shipImage } className="playerImage" alt="P" />
                             </div>
                         </div>
+                        <ReactPlayer
+                          url={laughter}
+                          playing={playingLaughter}
+                          onEnded={this.onEnded}
+                        />
                         <Snackbar
                             open={this.state.snackBarOpen}
                             message="OH SORRY"
