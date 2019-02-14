@@ -5,7 +5,10 @@ import GamePlay from './components/GamePlay';
 import { GameOver } from './components/GameOver';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import ReactPlayer from 'react-player';
 import './App.scss';
+
+import backSound from './assets/media/This Is America 8 Bit.mp3'
 
 class App extends Component {
   render() {
@@ -31,6 +34,14 @@ class App extends Component {
                     path={`${process.env.PUBLIC_URL}/gameOver`}
                     exact
                     component = {GameOver}
+                />
+                <ReactPlayer
+                    className='audio-main'
+                    url={backSound}
+                    playing={true}
+                    loop={true}
+                    volume = {0.2}
+                    onEnded={this.onEndenGameOverAudio}
                 />
             </div>
         </BrowserRouter>
