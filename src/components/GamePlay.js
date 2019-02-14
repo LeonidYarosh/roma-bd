@@ -86,7 +86,6 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
-        this.checkPlayerName();
         this.fire();
         this.setState({
             bottom: this.getBoundaries().bottom - 120

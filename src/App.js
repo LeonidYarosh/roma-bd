@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import ReactPlayer from 'react-player';
 import './App.scss';
 
-import backSound from './assets/media/This Is America 8 Bit.mp3'
+import backSound from './assets/media/America_Bit.mp3'
 
 class App extends Component {
   render() {
@@ -38,7 +38,7 @@ class App extends Component {
                 <ReactPlayer
                     className='audio-main'
                     url={backSound}
-                    playing={true}
+                    playing
                     loop={true}
                     volume = {0.2}
                 />
