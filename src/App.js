@@ -41,7 +41,6 @@ class App extends Component {
                     playing={true}
                     loop={true}
                     volume = {0.2}
-                    onEnded={this.onEndenGameOverAudio}
                 />
             </div>
         </BrowserRouter>
